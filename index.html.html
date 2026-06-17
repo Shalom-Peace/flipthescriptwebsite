@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flip The Script — Christ at the Centre of Culture</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Palette: aged paper, candlelight, faded rose, deep ink — a love letter read by lamplight */
+  --paper:     #FBF6EE;
+  --vellum:    #F5EBD8;
+  --parchment: #E8D9BE;
+  --candle:    #C8923A;
+  --candle-lt: #E8C47A;
+  --candle-dk: #8B5E1A;
+  --rose:      #B5605A;
+  --rose-lt:   #E8C4BF;
+  --ink:       #1E1610;
+  --ink-mid:   #5A4535;
+  --ink-lt:    #9A8070;
+  --serif-d:   'Playfair Display', Georgia, serif;
+  --serif-b:   'Lora', Georgia, serif;
+  --sans:      'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--serif-b);
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 3.5rem;
+  background: rgba(251,246,238,0.93);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--parchment);
+}
+.nav-logo {
+  display: flex; flex-direction: column; line-height: 1;
+  text-decoration: none;
+}
+.nav-logo-main {
+  font-family: var(--serif-d);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+}
+.nav-logo-main span { color: var(--candle); }
+.nav-logo-sub {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  margin-top: 2px;
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+.nav-links a {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--candle-dk); }
+.nav-cta {
+  background: var(--ink) !important;
+  color: var(--paper) !important;
+  padding: 0.5rem 1.2rem;
+  border-radius: 1px;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--candle-dk) !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 8rem 2rem 5rem;
+  position: relative;
+  overflow: hidden;
+  background: var(--vellum);
+}
+.hero-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 45% at 50% 40%, rgba(200,146,58,0.18) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 30% at 75% 75%, rgba(181,96,90,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 30% 25% at 25% 70%, rgba(200,146,58,0.08) 0%, transparent 50%);
+}
+/* Decorative corner flourishes */
+.hero-corner {
+  position: absolute;
+  width: 120px; height: 120px;
+  opacity: 0.15;
+}
+.hero-corner svg { width: 100%; height: 100%; }
+.hero-corner--tl { top: 5rem; left: 3rem; }
+.hero-corner--tr { top: 5rem; right: 3rem; transform: scaleX(-1); }
+.hero-corner--bl { bottom: 3rem; left: 3rem; transform: scaleY(-1); }
+.hero-corner--br { bottom: 3rem; right: 3rem; transform: scale(-1); }
+
+.hero-eyebrow {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--candle);
+  margin-bottom: 1.75rem;
+  opacity: 0;
+  animation: riseIn 0.9s 0.2s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.hero h1 {
+  font-family: var(--serif-d);
+  font-size: clamp(3.2rem, 7.5vw, 6rem);
+  font-weight: 700;
+  line-height: 1.06;
+  color: var(--ink);
+  margin-bottom: 0.2em;
+  opacity: 0;
+  animation: riseIn 0.9s 0.35s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.hero h1 .italic { font-style: italic; color: var(--candle-dk); font-weight: 500; }
+.hero-rule {
+  width: 1px; height: 60px;
+  background: linear-gradient(to bottom, var(--candle), transparent);
+  margin: 2rem auto;
+  opacity: 0;
+  animation: riseIn 0.9s 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.hero-verse {
+  font-family: var(--serif-b);
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.75;
+  color: var(--ink-mid);
+  max-width: 520px;
+  margin: 0 auto 0.75rem;
+  opacity: 0;
+  animation: riseIn 0.9s 0.6s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.hero-ref {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--candle);
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: riseIn 0.9s 0.7s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.hero-actions {
+  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  opacity: 0;
+  animation: riseIn 0.9s 0.85s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.btn-ink {
+  background: var(--ink); color: var(--paper);
+  padding: 0.9rem 2.2rem; border-radius: 1px;
+  font-family: var(--sans); font-size: 0.78rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-block;
+}
+.btn-ink:hover { background: var(--candle-dk); transform: translateY(-2px); }
+.btn-ghost {
+  background: transparent; color: var(--ink);
+  padding: 0.9rem 2.2rem; border-radius: 1px;
+  font-family: var(--sans); font-size: 0.78rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  text-decoration: none; border: 1px solid var(--parchment);
+  transition: border-color 0.2s, transform 0.15s;
+  display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--candle); transform: translateY(-2px); }
+
+/* ── SHARED SECTION ── */
+.section { padding: 6rem 2rem; position: relative; z-index: 1; }
+.inner { max-width: 1080px; margin: 0 auto; }
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--candle);
+  margin-bottom: 0.85rem;
+}
+.section-title {
+  font-family: var(--serif-d);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.12;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.section-title .it { font-style: italic; font-weight: 500; color: var(--candle-dk); }
+.body-text {
+  font-family: var(--serif-b);
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--ink-mid);
+}
+.hr-candle {
+  width: 40px; height: 1px;
+  background: var(--candle);
+  margin: 1.75rem 0;
+}
+
+/* ── MANIFESTO ── */
+.manifesto { background: var(--ink); color: var(--paper); }
+.manifesto-inner {
+  max-width: 760px; margin: 0 auto; text-align: center;
+}
+.manifesto blockquote {
+  font-family: var(--serif-d);
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--candle-lt);
+  margin-bottom: 2rem;
+}
+.manifesto blockquote em { color: var(--paper); font-style: normal; font-weight: 700; }
+.manifesto p {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  line-height: 1.85;
+  color: rgba(251,246,238,0.65);
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+/* ── THREE PILLARS ── */
+.pillars { background: var(--paper); }
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 4rem;
+  border: 1px solid var(--parchment);
+}
+.pillar {
+  padding: 3rem 2.5rem;
+  border-right: 1px solid var(--parchment);
+  position: relative;
+}
+.pillar:last-child { border-right: none; }
+.pillar-number {
+  font-family: var(--serif-d);
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--parchment);
+  line-height: 1;
+  margin-bottom: 1rem;
+  display: block;
+}
+.pillar h3 {
+  font-family: var(--serif-d);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+}
+.pillar h3 em { font-style: italic; color: var(--candle-dk); }
+.pillar p {
+  font-family: var(--serif-b);
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: var(--ink-mid);
+}
+.pillar-tag {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--candle);
+  border-bottom: 1px solid var(--candle-lt);
+  padding-bottom: 2px;
+}
+
+/* ── REFLECTIONS ── */
+.reflections { background: var(--vellum); }
+.reflections-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;
+}
+.read-all {
+  font-family: var(--sans); font-size: 0.75rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--candle-dk); text-decoration: none;
+  border-bottom: 1px solid var(--candle-lt); padding-bottom: 2px;
+}
+.posts-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 1.5px;
+  background: var(--parchment);
+}
+.post-card {
+  background: var(--paper);
+  padding: 2.5rem;
+  cursor: pointer;
+  transition: background 0.25s;
+  display: flex; flex-direction: column;
+}
+.post-card:hover { background: var(--vellum); }
+.post-card.featured { padding: 3rem; }
+.post-category {
+  font-family: var(--sans); font-size: 0.65rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 1rem;
+}
+.post-card h3 {
+  font-family: var(--serif-d);
+  font-weight: 700; line-height: 1.25;
+  color: var(--ink); margin-bottom: 0.75rem;
+}
+.post-card.featured h3 { font-size: 1.6rem; }
+.post-card:not(.featured) h3 { font-size: 1.15rem; }
+.post-card p {
+  font-family: var(--serif-b);
+  font-size: 0.9rem; line-height: 1.8;
+  color: var(--ink-mid); flex: 1;
+  margin-bottom: 1.5rem;
+}
+.post-card:not(.featured) p { display: none; }
+.post-card.featured p { display: block; }
+.post-read {
+  font-family: var(--sans); font-size: 0.7rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--candle-dk); text-decoration: none;
+  margin-top: auto;
+}
+.post-divider { width: 24px; height: 1px; background: var(--candle-lt); margin: 1rem 0; }
+
+/* ── PRAY FOR KPOP BANNER ── */
+.kpop-banner {
+  background: var(--candle-dk);
+  padding: 5rem 2rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.kpop-banner::before {
+  content: '✦ 기도 ✦';
+  position: absolute;
+  font-family: var(--serif-d);
+  font-size: 8rem;
+  color: rgba(255,255,255,0.04);
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  white-space: nowrap; pointer-events: none;
+}
+.kpop-banner .eyebrow { color: var(--candle-lt); }
+.kpop-banner h2 {
+  font-family: var(--serif-d);
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 700; color: var(--paper);
+  line-height: 1.15; margin-bottom: 1rem;
+}
+.kpop-banner h2 em { font-style: italic; font-weight: 500; color: var(--candle-lt); }
+.kpop-banner p {
+  font-family: var(--serif-b);
+  font-size: 1rem; line-height: 1.8;
+  color: rgba(251,246,238,0.75);
+  max-width: 520px; margin: 0 auto 2.5rem;
+}
+
+/* ── MEETINGS ── */
+.meetings { background: var(--paper); }
+.meetings-layout {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: start; margin-top: 3rem;
+}
+.meeting-card {
+  display: flex; gap: 1.5rem;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--parchment);
+}
+.meeting-card:first-child { border-top: 1px solid var(--parchment); }
+.m-date { text-align: center; min-width: 48px; padding-top: 2px; }
+.m-day {
+  font-family: var(--serif-d);
+  font-size: 2.2rem; font-weight: 700;
+  line-height: 1; color: var(--candle);
+}
+.m-month {
+  font-family: var(--sans);
+  font-size: 0.62rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ink-lt);
+}
+.m-info h4 {
+  font-family: var(--serif-d);
+  font-size: 1.05rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 0.3rem;
+}
+.m-info p {
+  font-family: var(--sans);
+  font-size: 0.82rem; line-height: 1.6;
+  color: var(--ink-mid); margin-bottom: 0.5rem;
+}
+.m-join {
+  font-family: var(--sans); font-size: 0.68rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--candle-dk); text-decoration: none;
+}
+
+/* Sign-up panel */
+.signup-panel {
+  background: var(--vellum);
+  padding: 3rem;
+  border: 1px solid var(--parchment);
+}
+.signup-panel h3 {
+  font-family: var(--serif-d);
+  font-size: 1.6rem; font-weight: 700;
+  line-height: 1.2; color: var(--ink);
+  margin-bottom: 0.75rem;
+}
+.signup-panel h3 em { font-style: italic; color: var(--candle-dk); font-weight: 500; }
+.signup-panel p {
+  font-family: var(--serif-b);
+  font-size: 0.9rem; line-height: 1.8;
+  color: var(--ink-mid); margin-bottom: 2rem;
+}
+.form-field { margin-bottom: 0.85rem; }
+.form-field input {
+  width: 100%; padding: 0.85rem 1rem;
+  background: var(--paper); border: 1px solid var(--parchment);
+  font-family: var(--sans); font-size: 0.88rem;
+  color: var(--ink); outline: none; border-radius: 0;
+  transition: border-color 0.2s;
+}
+.form-field input:focus { border-color: var(--candle); }
+.form-field input::placeholder { color: var(--ink-lt); }
+.btn-candle {
+  width: 100%; padding: 0.95rem;
+  background: var(--candle); color: var(--ink);
+  border: none; font-family: var(--sans);
+  font-size: 0.78rem; letter-spacing: 0.14em;
+  text-transform: uppercase; font-weight: 500;
+  cursor: pointer; transition: background 0.2s; margin-top: 0.5rem;
+}
+.btn-candle:hover { background: var(--candle-dk); color: var(--paper); }
+
+/* ── PRAYER REQUEST ── */
+.prayer { background: var(--vellum); text-align: center; }
+.prayer-inner { max-width: 620px; margin: 0 auto; }
+.prayer-card {
+  background: var(--paper);
+  border: 1px solid var(--parchment);
+  padding: 3.5rem;
+  margin-top: 3rem;
+}
+.prayer-card textarea {
+  width: 100%; min-height: 130px;
+  padding: 1.25rem; resize: vertical;
+  background: var(--vellum); border: 1px solid var(--parchment);
+  font-family: var(--serif-b); font-size: 1rem; font-style: italic;
+  color: var(--ink); outline: none; border-radius: 0;
+  transition: border-color 0.2s; margin-bottom: 1rem; display: block;
+}
+.prayer-card textarea:focus { border-color: var(--candle); }
+.prayer-card textarea::placeholder { color: var(--ink-lt); }
+.prayer-card input[type="email"] {
+  width: 100%; padding: 0.85rem 1rem;
+  background: var(--vellum); border: 1px solid var(--parchment);
+  font-family: var(--sans); font-size: 0.88rem;
+  color: var(--ink); outline: none; border-radius: 0;
+  transition: border-color 0.2s; margin-bottom: 1rem; display: block;
+}
+.prayer-card input[type="email"]:focus { border-color: var(--candle); }
+.prayer-card input[type="email"]::placeholder { color: var(--ink-lt); }
+
+/* ── ABOUT ── */
+.about { background: var(--paper); }
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1.1fr;
+  gap: 6rem; align-items: center;
+}
+.about-photo {
+  aspect-ratio: 3/4;
+  background: var(--parchment);
+  border: 1px solid var(--parchment);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.about-photo-placeholder {
+  font-family: var(--serif-d);
+  font-size: 0.8rem; letter-spacing: 0.12em;
+  color: var(--ink-lt); text-align: center;
+  text-transform: uppercase;
+}
+.about-photo::after {
+  content: '';
+  position: absolute; inset: 12px;
+  border: 1px solid var(--candle-lt);
+  pointer-events: none;
+}
+.about-text h2 { margin-bottom: 1rem; }
+.about-text .body-text { margin-bottom: 1rem; }
+.pull-quote {
+  font-family: var(--serif-d);
+  font-size: 1.3rem; font-style: italic; font-weight: 500;
+  line-height: 1.55; color: var(--ink);
+  border-left: 2px solid var(--candle);
+  padding-left: 1.5rem; margin: 2rem 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); color: var(--paper);
+  padding: 4rem 2rem 2.5rem;
+}
+.footer-inner {
+  max-width: 1080px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 4rem; padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(251,246,238,0.1);
+}
+.footer-brand h3 {
+  font-family: var(--serif-d);
+  font-size: 1.3rem; font-weight: 700;
+  color: var(--paper); margin-bottom: 0.25rem;
+}
+.footer-brand h3 span { color: var(--candle); }
+.footer-brand .tagline {
+  font-family: var(--sans); font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-lt); margin-bottom: 1.25rem;
+}
+.footer-brand p {
+  font-family: var(--serif-b); font-size: 0.85rem;
+  line-height: 1.8; color: rgba(251,246,238,0.5);
+}
+.footer-col h4 {
+  font-family: var(--sans); font-size: 0.65rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--candle); margin-bottom: 1.25rem;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 0.65rem; }
+.footer-col ul a {
+  font-family: var(--sans); font-size: 0.82rem;
+  color: rgba(251,246,238,0.55); text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-col ul a:hover { color: var(--candle-lt); }
+.footer-bottom {
+  max-width: 1080px; margin: 2rem auto 0;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-bottom p {
+  font-family: var(--sans); font-size: 0.72rem;
+  color: rgba(251,246,238,0.3); letter-spacing: 0.05em;
+}
+.footer-verse {
+  font-family: var(--serif-b); font-style: italic;
+  font-size: 0.78rem; color: rgba(251,246,238,0.4);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .pillars-grid { grid-template-columns: 1fr; }
+  .pillar { border-right: none; border-bottom: 1px solid var(--parchment); }
+  .posts-grid { grid-template-columns: 1fr; }
+  .post-card:not(.featured) p { display: block; }
+  .meetings-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-photo { aspect-ratio: 4/3; }
+  .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-main">Flip The <span>Script</span></span>
+    <span class="nav-logo-sub">Collective</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#reflections">Reflections</a></li>
+    <li><a href="#kpop">Pray for K-pop</a></li>
+    <li><a href="#meetings">Meetings</a></li>
+    <li><a href="#prayer" class="nav-cta">Pray with us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-glow"></div>
+  <!-- corner flourishes -->
+  <div class="hero-corner hero-corner--tl">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 90 L10 10 L90 10" stroke="#C8923A" stroke-width="1.5" fill="none"/>
+      <path d="M10 10 L30 30" stroke="#C8923A" stroke-width="0.75" fill="none"/>
+      <circle cx="10" cy="10" r="3" fill="#C8923A"/>
+    </svg>
+  </div>
+  <div class="hero-corner hero-corner--tr">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 90 L10 10 L90 10" stroke="#C8923A" stroke-width="1.5" fill="none"/>
+      <path d="M10 10 L30 30" stroke="#C8923A" stroke-width="0.75" fill="none"/>
+      <circle cx="10" cy="10" r="3" fill="#C8923A"/>
+    </svg>
+  </div>
+
+  <p class="hero-eyebrow">✦ &nbsp; Flip The Script Collective &nbsp; ✦</p>
+  <h1>Seeing <span class="italic">Christ</span><br>in every story</h1>
+  <div class="hero-rule"></div>
+  <p class="hero-verse">
+    "When your eyes are only on Jesus, you'll see Him everywhere —<br>
+    in movies, in music, in novels. Every moment becomes<br>
+    an encounter with Him."
+  </p>
+  <p class="hero-ref">— From our reflections</p>
+  <div class="hero-actions">
+    <a href="#reflections" class="btn-ink">Read reflections</a>
+    <a href="#meetings" class="btn-ghost">Join a prayer meeting</a>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto section" id="manifesto">
+  <div class="manifesto-inner">
+    <p class="eyebrow" style="color:var(--candle-lt);">What we believe</p>
+    <blockquote>
+      "Every good story is about <em>transformation</em>. And Jesus is our transformation."
+    </blockquote>
+    <p>Flip The Script is a Christ-centered collective on a mission to flip everyday moments — movies, music, dramas, novels — into windows that reveal God's redemptive love. We believe He's in all of it. And we gather, reflect, and intercede because of it.</p>
+  </div>
+</section>
+
+<!-- THREE PILLARS -->
+<section class="pillars section" id="pillars">
+  <div class="inner">
+    <p class="eyebrow">How we live this out</p>
+    <h2 class="section-title">Three <span class="it">ways</span> we show up</h2>
+    <div class="pillars-grid">
+      <div class="pillar">
+        <span class="pillar-number">I</span>
+        <h3><em>Reflect</em></h3>
+        <p>Christ-centered commentary on K-pop, K-dramas, C-dramas, and pop culture. We read the stories the world is telling — and find God hidden in plain sight inside them.</p>
+        <a href="#reflections" class="pillar-tag">Read reflections →</a>
+      </div>
+      <div class="pillar">
+        <span class="pillar-number">II</span>
+        <h3><em>Gather</em></h3>
+        <p>Culture translation shows and hangouts where we watch, discuss, and feel it together — because faith is meant to be lived in community, not consumed alone.</p>
+        <a href="#meetings" class="pillar-tag">See upcoming gatherings →</a>
+      </div>
+      <div class="pillar">
+        <span class="pillar-number">III</span>
+        <h3><em>Intercede</em></h3>
+        <p>Going from idolising to interceding. We pray for artists, for fans, and for a generation shaped by Asian pop culture to encounter the love of Jesus.</p>
+        <a href="#prayer" class="pillar-tag">Pray with us →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFLECTIONS -->
+<section class="reflections section" id="reflections">
+  <div class="inner">
+    <div class="reflections-header">
+      <div>
+        <p class="eyebrow">Latest reflections</p>
+        <h2 class="section-title">Where <span class="it">faith</span> meets the story</h2>
+      </div>
+      <a href="#" class="read-all">View all reflections →</a>
+    </div>
+    <div class="posts-grid">
+      <article class="post-card featured">
+        <p class="post-category">K-Drama · Identity & Longing</p>
+        <h3>Kang Min Hyuk and the love that was always pointing somewhere else</h3>
+        <div class="post-divider"></div>
+        <p>I finished watching Entertainer and felt that overwhelming emptiness — the ache that a story has ended, the longing for someone you'll never truly know. What I discovered is that every crush, every unrequited ache, is a minute reflection of how God loves us and longs to be known by us.</p>
+        <a href="#" class="post-read">Read reflection →</a>
+      </article>
+      <article class="post-card">
+        <p class="post-category">K-Pop · Intercession</p>
+        <h3>From idolising to interceding — why we pray for K-pop artists</h3>
+        <div class="post-divider"></div>
+        <a href="#" class="post-read">Read →</a>
+      </article>
+      <article class="post-card">
+        <p class="post-category">Faith & Culture</p>
+        <h3>How to truly love your favourite actors and celebrities</h3>
+        <div class="post-divider"></div>
+        <a href="#" class="post-read">Read →</a>
+      </article>
+      <article class="post-card">
+        <p class="post-category">C-Drama · Transformation</p>
+        <h3>Status quo, disruption, transformation — God's story hiding in every plot</h3>
+        <div class="post-divider"></div>
+        <a href="#" class="post-read">Read →</a>
+      </article>
+      <article class="post-card">
+        <p class="post-category">Devotional</p>
+        <h3>When you're in love with Jesus, everything becomes a conversation with Him</h3>
+        <div class="post-divider"></div>
+        <a href="#" class="post-read">Read →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PRAY FOR KPOP BANNER -->
+<section class="kpop-banner section" id="kpop">
+  <p class="eyebrow">Our current campaign</p>
+  <h2>Going from <em>idolising</em><br>to interceding</h2>
+  <p>K-pop reaches millions of hearts — artists under immense pressure, fans searching for belonging and meaning. We believe Christians are called to pray for them. Join our growing community of intercessors.</p>
+  <a href="#meetings" class="btn-ink" style="background:var(--paper); color:var(--ink);">Join a prayer meeting</a>
+</section>
+
+<!-- MEETINGS -->
+<section class="meetings section" id="meetings">
+  <div class="inner">
+    <p class="eyebrow">Online gatherings</p>
+    <h2 class="section-title">Gather, pray,<br><span class="it">believe together</span></h2>
+    <div class="meetings-layout">
+      <div>
+        <p class="body-text" style="margin-bottom:2.5rem;">We gather online to pray, reflect, and discuss — because faith in culture is better lived together. All are welcome, wherever you are in the world.</p>
+        <div class="meeting-card">
+          <div class="m-date">
+            <div class="m-day">22</div>
+            <div class="m-month">Jun</div>
+          </div>
+          <div class="m-info">
+            <h4>Weekly intercession — K-pop prayer</h4>
+            <p>Sundays · 7:00 PM WAT · Zoom<br>Praying for artists, fans & the industry</p>
+            <a href="#" class="m-join">Register for link →</a>
+          </div>
+        </div>
+        <div class="meeting-card">
+          <div class="m-date">
+            <div class="m-day">26</div>
+            <div class="m-month">Jun</div>
+          </div>
+          <div class="m-info">
+            <h4>Culture hangout — Drama discussion</h4>
+            <p>Thursdays · 8:00 PM WAT · Zoom<br>Watching & reflecting through a faith lens</p>
+            <a href="#" class="m-join">Register for link →</a>
+          </div>
+        </div>
+        <div class="meeting-card">
+          <div class="m-date">
+            <div class="m-day">6</div>
+            <div class="m-month">Jul</div>
+          </div>
+          <div class="m-info">
+            <h4>Monthly deep prayer & worship</h4>
+            <p>First Sunday · 6:00 PM WAT · Zoom<br>Extended intercession + scripture + worship</p>
+            <a href="#" class="m-join">Register for link →</a>
+          </div>
+        </div>
+      </div>
+      <div class="signup-panel">
+        <h3>Never miss a<br><em>gathering</em></h3>
+        <p>Sign up to receive Zoom links, new reflections, and prayer points straight to your inbox.</p>
+        <div class="form-field"><input type="text" placeholder="Your name"></div>
+        <div class="form-field"><input type="email" placeholder="Email address"></div>
+        <div class="form-field"><input type="text" placeholder="Country (optional)"></div>
+        <button class="btn-candle">Join the collective</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRAYER REQUEST -->
+<section class="prayer section" id="prayer">
+  <div class="prayer-inner">
+    <p class="eyebrow">Submit a prayer request</p>
+    <h2 class="section-title">Share what's on<br><span class="it">your heart</span></h2>
+    <p class="body-text" style="max-width:480px; margin:0 auto;">Is there an artist, a drama, a situation, or a fan community you'd like the collective to pray for? Write it here — we'll lift it up together.</p>
+    <div class="prayer-card">
+      <textarea placeholder="e.g. Please pray for [artist]… I've been burdened for them lately."></textarea>
+      <input type="email" placeholder="Your email (optional — if you'd like a reply)">
+      <button class="btn-ink" style="width:100%; padding:0.95rem; cursor:pointer; border:none; font-family:var(--sans); font-size:0.78rem; letter-spacing:0.14em; text-transform:uppercase;">Send prayer request</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about section" id="about">
+  <div class="inner about-grid">
+    <div class="about-photo">
+      <div class="about-photo-placeholder">
+        <p style="font-size:2rem; margin-bottom:0.5rem;">✦</p>
+        Your photo<br>goes here
+      </div>
+    </div>
+    <div class="about-text">
+      <p class="eyebrow">About the founder</p>
+      <h2 class="section-title">A <span class="it">love letter</span><br>to culture</h2>
+      <div class="hr-candle"></div>
+      <p class="body-text">Flip The Script began as a simple conviction: that God is not absent from the stories the world is telling. He is hidden in plain sight — in every drama that wrecks you, every song that names what you couldn't, every character you fall in love with and can't explain why.</p>
+      <blockquote class="pull-quote">"When you're in love with Jesus, you see Him everywhere. Every moment becomes a conversation with the Holy Spirit."</blockquote>
+      <p class="body-text">I write Christ-centered reflections at the intersection of faith and everyday life — and I'm rallying a community of believers to pray for the artists and fans that Asian pop culture is shaping. Because the heart of every K-pop fan or drama lover is a heart that was made for God.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>Flip The <span>Script</span></h3>
+      <p class="tagline">Collective</p>
+      <p>A Christ-centered collective turning everyday cultural moments into encounters with the living God. Reflect. Gather. Intercede.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#reflections">Reflections</a></li>
+        <li><a href="#kpop">Pray for K-pop</a></li>
+        <li><a href="#meetings">Gatherings</a></li>
+        <li><a href="#prayer">Prayer requests</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">YouTube</a></li>
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Flip The Script Collective · Made with faith & love</p>
+    <p class="footer-verse">"Every experience becomes an encounter with Jesus." — John 2:1–11</p>
+  </div>
+</footer>
+
+</body>
+</html>
